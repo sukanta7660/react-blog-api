@@ -51,7 +51,7 @@ class AuthController extends Controller
 
             $data = [
               'user' => $user,
-              'token' => $token->token,
+              'access_token' => $token->token,
               'message' =>  'Logged in successfully'
             ];
 

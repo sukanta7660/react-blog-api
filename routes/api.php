@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,12 +21,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return true;
     });
 
-    Route::get('/user', function () {
-        return response()->json([
-            'auth_user' => auth()->user(),
-            'posts' => Post::whereUser_id(auth()->user()->id)->with(['user', 'categories'])->latest()->get()
-        ]);
-    });
+    Route::get('/user', [UserController::class, 'getUser']);
 
     Route::post('/store-post', [PostController::class, 'store_post']);
     Route::get('/single-post/{id}/{slug}', [PostController::class, 'fetch_single_post']);
