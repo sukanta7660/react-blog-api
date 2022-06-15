@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -28,8 +29,7 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
-            'token' => $token,
-            'token_type' => 'Bearer',
+            'message' => 'Registration Successful'
         ], 200);
     }
 
@@ -49,16 +49,16 @@ class AuthController extends Controller
             $user = Auth::user();
             $token = $user->createToken('MyToken')->accessToken;
 
-            return response()->json([
-                'user' => $user,
-                'token' => $token->token,
-                'success' => 'Logged in successfully'
-            ], 200);
+            $data = [
+              'user' => $user,
+              'token' => $token->token,
+              'message' =>  'Logged in successfully'
+            ];
+
+            return Helper::sendResponse($data, 'Logged in successfully', true);
         }
 
-        return response()->json([
-            'error' => 'Credential not matched'
-        ], 400);
+        return Helper::sendResponse([], 'Credential not matched', false, 400);
     }
 
     public function logout()
