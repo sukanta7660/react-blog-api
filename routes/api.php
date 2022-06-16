@@ -15,7 +15,8 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+
+Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/authenticated', function () {
         return true;
@@ -39,6 +40,6 @@ Route::get('/all-posts', [PostController::class, 'all_posts']);
 Route::get('/post-details/{id}/{slug}', [PostController::class, 'fetch_single_post']);
 Route::get('categories', [PostController::class, 'categories']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
